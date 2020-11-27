@@ -6,8 +6,8 @@
           <p>尚品汇欢迎您！</p>
           <p>
             <span>请</span>
-            <a href="###" class="login">登录</a>
-            <a href="###" class="rigister">免费注册</a>
+            <router-link to="/login" class="login">登录</router-link>
+            <router-link to="/register" class="rigister">免费注册</router-link>
           </p>
         </div>
         <div class="header-type-list">
@@ -24,14 +24,14 @@
     </div>
     <div class="header-bottom">
       <div class="header-logo">
-        <a>
+        <router-link class="logo" title="尚品汇" to="/">
           <img src="./images/logo.png" />
-        </a>
+        </router-link>
       </div>
       <div class="header-search">
         <form action="###">
           <input type="text" />
-          <button>搜索</button>
+          <button @click="search">搜索</button>
         </form>
       </div>
     </div>
@@ -41,6 +41,12 @@
 <script>
 export default {
   name: "Header",
+  methods: {
+    search() {
+      // 编程式导航：原因将来要做搜索功能（要发送请求）
+      this.$router.push("/search");
+    },
+  },
 };
 </script>
 
