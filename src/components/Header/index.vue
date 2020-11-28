@@ -29,9 +29,15 @@
         </router-link>
       </div>
       <div class="header-search">
-        <form action="###">
-          <input type="text" />
-          <button @click="search">搜索</button>
+        <form @submit.prevent="search">
+          <!-- 
+            问题：点击搜索，路径出现问号（原因是提交了表单）
+            1. button 按钮如果没有type 那么在表单中 默认type就是submit
+              此时会提交表单，事件就绑定在form上   @submit.prevent="search"
+            2. 不用form表单    @click="search"
+           -->
+          <input type="text" v-model="searchText" />
+          <button>搜索</button>
         </form>
       </div>
     </div>
@@ -43,8 +49,12 @@ export default {
   name: "Header",
   methods: {
     search() {
+      //获取搜索内容  后判断是否需要加parmas参数
+      const { searchText } = this;
       // 编程式导航：原因将来要做搜索功能（要发送请求）
-      this.$router.push("/search");
+      const parmas = searchText ? `/${searchText}` : "";
+      const location = "/search" + parmas;
+      this.$router.push(location);
     },
   },
 };
