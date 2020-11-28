@@ -18,13 +18,12 @@
               <input type="password" placeholder="请输入密码" />
             </div>
             <div class="login-checkbox">
-              <lable> <input type="checkbox" />自动登录 </lable>
+              <label> <input type="checkbox" />自动登录</label>
               <a href="#"><span>忘记密码？</span></a>
             </div>
             <button>登录</button>
           </form>
           <div class="login-block">
-            <a>忘记密码</a>
             <a>忘记用户名</a>
             <a>免费注册</a>
           </div>
@@ -45,7 +44,7 @@ export default {
   height: 487px;
   background-color: #e93854;
 }
-.login {
+.login-container {
   width: 1200px;
   height: 487px;
   margin: 0px auto;
@@ -127,10 +126,9 @@ button {
 }
 .login-block {
   margin: 40px 0;
+  padding-left: 200px;
 
   a {
-    display: block;
-    float: right;
     margin-left: 8px;
   }
 }

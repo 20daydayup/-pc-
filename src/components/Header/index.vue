@@ -47,13 +47,18 @@
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      searchText: "",
+    };
+  },
   methods: {
     search() {
       //获取搜索内容  后判断是否需要加parmas参数
       const { searchText } = this;
-      // 编程式导航：原因将来要做搜索功能（要发送请求）
       const parmas = searchText ? `/${searchText}` : "";
       const location = "/search" + parmas;
+      // 编程式导航：原因将来要做搜索功能（要发送请求）
       this.$router.push(location);
     },
   },
