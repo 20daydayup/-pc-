@@ -9,58 +9,61 @@
           @mouseleave="isSearchShow = false"
         >
           <h2>全部商品分类</h2>
-          <div class="sort" v-show="isHomeShow || isSearchShow">
-            <div class="all-sort" @click="goSearch">
-              <div
-                class="sort-first"
-                v-for="first in categoryList"
-                :key="first.categoryId"
-              >
-                <!-- 一级目录 -->
-                <h3 class="list">
-                  <a
-                    :data-categoryName="first.categoryName"
-                    :data-categoryId="first.categoryId"
-                    :data-categoryType="1"
-                    >{{ first.categoryName }}</a
-                  >
-                </h3>
-                <div class="sort-second">
-                  <div class="sub-item">
-                    <dl
-                      v-for="second in first.categoryChild"
-                      :key="second.categoryId"
+          <!-- 添加过渡效果 name控制样式-->
+          <transition name="hide">
+            <div class="sort" v-show="isHomeShow || isSearchShow">
+              <div class="all-sort" @click="goSearch">
+                <div
+                  class="sort-first"
+                  v-for="first in categoryList"
+                  :key="first.categoryId"
+                >
+                  <!-- 一级目录 -->
+                  <h3 class="list">
+                    <a
+                      :data-categoryName="first.categoryName"
+                      :data-categoryId="first.categoryId"
+                      :data-categoryType="1"
+                      >{{ first.categoryName }}</a
                     >
-                      <!-- 二级目录 -->
-                      <dt>
-                        <a
-                          :data-categoryName="second.categoryName"
-                          :data-categoryId="second.categoryId"
-                          :data-categoryType="2"
-                        >
-                          {{ second.categoryName }}</a
-                        >
-                      </dt>
-                      <!-- 三级目录 -->
-                      <dd>
-                        <em
-                          v-for="third in second.categoryChild"
-                          :key="third.categoryId"
-                        >
+                  </h3>
+                  <div class="sort-second">
+                    <div class="sub-item">
+                      <dl
+                        v-for="second in first.categoryChild"
+                        :key="second.categoryId"
+                      >
+                        <!-- 二级目录 -->
+                        <dt>
                           <a
-                            :data-categoryName="third.categoryName"
-                            :data-categoryId="third.categoryId"
-                            :data-categoryType="3"
-                            >{{ third.categoryName }}</a
+                            :data-categoryName="second.categoryName"
+                            :data-categoryId="second.categoryId"
+                            :data-categoryType="2"
                           >
-                        </em>
-                      </dd>
-                    </dl>
+                            {{ second.categoryName }}</a
+                          >
+                        </dt>
+                        <!-- 三级目录 -->
+                        <dd>
+                          <em
+                            v-for="third in second.categoryChild"
+                            :key="third.categoryId"
+                          >
+                            <a
+                              :data-categoryName="third.categoryName"
+                              :data-categoryId="third.categoryId"
+                              :data-categoryType="3"
+                              >{{ third.categoryName }}</a
+                            >
+                          </em>
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </transition>
         </div>
         <nav class="nav">
           <a href="###">服装城</a>
@@ -137,7 +140,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.MainNav-body {
+.MainNav-nav {
   border-bottom: 2px solid #e1251b;
   height: 45px;
 }
@@ -158,14 +161,23 @@ export default {
 }
 .sort {
   position: absolute;
-  top: 48px;
+  top: 46px;
   left: 0px;
   width: 210px;
   height: 474px;
   border: 1px solid #ccc;
   box-sizing: border-box;
   background-color: #fafafa;
+  // 控制显示隐藏过渡效果
+  &.hide-enter-active {
+    transition: height 0.5s;
+    overflow: hidden;
+  }
+  &.hide-enter {
+    height: 0px;
+  }
 }
+
 .sort-first .list {
   height: 29px;
   line-height: 29px;
