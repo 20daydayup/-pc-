@@ -2,14 +2,22 @@
   <div>
     <div class="MainNav-list">
       <div class="sort-list">
-        <swiper ref="mySwiper" :options="swiperOptions">
+        <!-- <swiper ref="mySwiper" :options="swiperOptions">
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
-        </swiper>
+        </swiper> -->
+        <div class="block">
+          <span class="demonstration">默认 Hover 指示器触发</span>
+          <el-carousel height="150px">
+            <el-carousel-item v-for="item in 4" :key="item">
+              <h3 class="small">{{ item }}</h3>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
       </div>
     </div>
   </div>
@@ -18,25 +26,25 @@
 <script>
 export default {
   name: "Caroulse",
-  data() {
-    return {
-      swiperOptions: {
-        pagination: {
-          el: ".swiper-pagination",
-        },
-        // Some Swiper option/callback...
-      },
-    };
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper;
-    },
-  },
-  mounted() {
-    console.log("Current Swiper instance object", this.swiper);
-    this.swiper.slideTo(3, 1000, false);
-  },
+  // data() {
+  //   return {
+  //     swiperOptions: {
+  //       pagination: {
+  //         el: ".swiper-pagination",
+  //       },
+  //       // Some Swiper option/callback...
+  //     },
+  //   };
+  // },
+  // computed: {
+  //   swiper() {
+  //     return this.$refs.mySwiper.$swiper;
+  //   },
+  // },
+  // mounted() {
+  //   console.log("Current Swiper instance object", this.swiper);
+  //   this.swiper.slideTo(3, 1000, false);
+  // },
 };
 </script>
 

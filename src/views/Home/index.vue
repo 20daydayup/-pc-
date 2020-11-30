@@ -2,6 +2,8 @@
   <div>
     <!-- 主要导航 -->
     <MainNav />
+    <!-- 轮播图 -->
+    <Caroulse />
     <!--列表-->
     <ListContainer />
     <!--今日推荐-->
@@ -27,11 +29,13 @@ import MainNav from "../../components/MainNav";
 import NiceGoods from "./NiceGoods";
 import Rank from "./Rank";
 import TodayRecommend from "./TodayRecommend";
+import Caroulse from "./Caroulse";
 
 export default {
   name: "Home",
   components: {
     MainNav,
+    Caroulse,
     Brand,
     Like,
     ListContainer,

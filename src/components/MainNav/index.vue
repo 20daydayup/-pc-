@@ -54,45 +54,34 @@
         </nav>
       </div>
     </div>
-
-    <!-- <div class="MainNav-list"> -->
-      <!-- <div class="sort-list"> -->
-        <!-- 轮播图 -->
-        <!-- <div class="center">
-          <div class="block">
-            <span class="demonstration">默认 Hover 指示器触发</span>
-            <el-carousel height="150px">
-              <el-carousel-item v-for="item in 4" :key="item">
-                <h3 class="small">{{ item }}</h3>
-              </el-carousel-item>
-            </el-carousel>
-          </div>
-        </div> -->
-        <Caroulse/>
-      <!-- </div>
-    </div> -->
   </div>
 </template>
 
 <script>
-import { reqgetBaseCategoryList } from "@api/home";
-import Caroulse from "@views/Home/Caroulse";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "MainNav",
-  data() {
-    return {
-      categoryList: [],
-    };
+  // data() {  //页面一进来就加载数据,和数据响应式
+  //   return {
+  //     categoryList: [],
+  //   };
+  // },
+  computed: {
+    ...mapState({
+      // 对象中的数据，就会传递给组件   // categoryList就是组件能接受到的数据
+      // 它的值是一个函数，函数内部会调用得到值   // 调用时会将所有vuex数据传递进去，就是state
+      categoryList: (state) => state.home.categoryList,
+    }),
   },
-  //页面一进来就加载数据,和数据响应式
-  async mounted() {
-    const result = await reqgetBaseCategoryList();
-    console.log(result);
-    this.categoryList = result.slice(0, 15);
+  methods: {
+    // 函数直接写   注意：将来action函数名称和mutation函数名称不要重复
+    ...mapActions(["getCategoryList"]),
   },
-  components: {
-    Caroulse,
+  mounted() {
+    console.log(this);
+    // 调用vuex的action函数
+    this.getCategoryList();
   },
 };
 </script>
@@ -138,7 +127,7 @@ export default {
   width: 730px;
   height: 467px;
   display: none;
-  background-color:#fff;
+  background-color: #fff;
   z-index: 2;
   dl {
     // border: 1px solid red;
