@@ -133,7 +133,10 @@ export default {
   },
   mounted() {
     console.log(this);
-    // 调用vuex的action函数
+    //请求之前判断有没有vuex数据,有就显示缓存数据，减少请求数据
+    if(this.categoryList.length) return
+    
+    // 调用vuex的action函数 发送请求
     this.getCategoryList();
   },
 };
@@ -233,7 +236,7 @@ export default {
   }
 }
 .nav {
-  // text-align: center;
+  line-height: 45px;
   a {
     margin: 15px;
     font-size: 16px;
@@ -251,20 +254,5 @@ export default {
 // }
 // .center {
 //   width: 740px;
-// }
-// .el-carousel__item h3 {
-//   color: #475669;
-//   font-size: 14px;
-//   opacity: 0.75;
-//   line-height: 150px;
-//   margin: 0;
-// }
-
-// .el-carousel__item:nth-child(2n) {
-//   background-color: #99a9bf;
-// }
-
-// .el-carousel__item:nth-child(2n + 1) {
-//   background-color: #d3dce6;
 // }
 </style>
