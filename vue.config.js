@@ -1,6 +1,6 @@
 const path = require("path");
 
-module.export = {
+module.exports = {
   // lintOnSave: false, // 关闭所有eslint检查
   // 当前配置会和vue的webpack合并
   configureWebpack: {
@@ -17,7 +17,7 @@ module.export = {
     },
   },
   // 改了配置，一定要重启才能生效
-  devSever: {
+  devServer: {
     proxy: {
       "/api": {
         target: "http://182.92.128.115",
@@ -26,6 +26,6 @@ module.export = {
         //   "^/api": "",
         // },
       },
-    },
+    },  
   },
 };

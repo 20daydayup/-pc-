@@ -1,40 +1,44 @@
 <template>
   <div>
-    <div class="home-body">
-      <!-- 全部商品部分 -->
-      <div class="home-nav">
-        <div class="home-container">
-          <div class="home-allgoods">
-            <h2>全部商品分类</h2>
-            <div class="sort">
-              <div>
-                <h3>图书、音像、电子书刊</h3>
-                <div></div>
-              </div>
-            </div>
-          </div>
-
-          <ul>
-            <li>服装城</li>
-            <li>美妆馆</li>
-            <li>尚品汇超市</li>
-            <li>全球购</li>
-            <li>闪购</li>
-            <li>有趣</li>
-            <li>秒杀</li>
-          </ul>
-        </div>
-      </div>
-
-      <div></div>
-    </div>
+    <!-- 主要导航 -->
+    <MainNav />
+    <!--列表-->
+    <ListContainer />
+    <!--今日推荐-->
+    <TodayRecommend />
+    <!-- 商品排行 -->
+    <Rank />
+    <!-- 猜你喜欢 -->
+    <Like />
+    <!--好物-->
+    <NiceGoods />
+    <!--好物-->
+    <NiceGoods />
+    <!--商标-->
+    <Brand />
   </div>
 </template>
 
 <script>
+import Brand from "./Brand";
+import Like from "./Like";
+import ListContainer from "./ListContainer";
+import MainNav from "../../components/MainNav";
+import NiceGoods from "./NiceGoods";
+import Rank from "./Rank";
+import TodayRecommend from "./TodayRecommend";
+
 export default {
   name: "Home",
-  
+  components: {
+    MainNav,
+    Brand,
+    Like,
+    ListContainer,
+    NiceGoods,
+    Rank,
+    TodayRecommend,
+  },
 };
 </script>
 

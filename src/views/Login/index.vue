@@ -11,7 +11,7 @@
           </li>
         </ul>
         <div class="login-content">
-          <form action="#">
+          <form @submit.prevent="">
             <div><i></i><input type="text" placeholder="手机号" /></div>
             <div>
               <i></i>
@@ -21,7 +21,8 @@
               <label> <input type="checkbox" />自动登录</label>
               <a href="#"><span>忘记密码？</span></a>
             </div>
-            <button>登录</button>
+            <!-- <button @click="login">登录</button> -->
+            <el-button @click="login" type="danger">登录</el-button>
           </form>
           <div class="login-block">
             <a>忘记用户名</a>
@@ -34,9 +35,21 @@
 </template>
 
 <script>
+import { reqLogin } from "../../api/user";
+
 export default {
   name: "Login",
-  
+  methods: {
+    login() {
+      reqLogin("13700000000", "111111")
+        .then((res) => {
+          console.log(res, "res");
+        })
+        .catch((err) => {
+          console.log(err, "err");
+        });
+    },
+  },
 };
 </script>
 
@@ -118,12 +131,12 @@ form {
 }
 button {
   width: 100%;
-  height: 36px;
-  outline: none;
-  background-color: #e1251b;
-  color: #fff;
-  border: none;
-  padding: 6px;
+  height: 45px;
+  // outline: none;
+  // // background-color: #e1251b;
+  // color: #fff;
+  // border: none;
+  // padding: 6px;
 }
 .login-block {
   margin: 40px 0;
