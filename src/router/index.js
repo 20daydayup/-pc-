@@ -53,6 +53,7 @@ export default new VueRouter({
     },
     {
       // ?: 代表 params 参数是可选的
+      name: "search",
       path: "/search/:searchText?",
       component: Search,
     },

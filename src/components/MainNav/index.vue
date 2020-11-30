@@ -3,10 +3,14 @@
   <div>
     <div class="MainNav-nav">
       <div class="container">
-        <div class="allgoods">
+        <div
+          class="allgoods"
+          @mouseenter="isSearchShow = true"
+          @mouseleave="isSearchShow = false"
+        >
           <h2>全部商品分类</h2>
-          <div class="sort">
-            <div class="all-sort">
+          <div class="sort" v-show="isHomeShow || isSearchShow">
+            <div class="all-sort" @click="goSearch">
               <div
                 class="sort-first"
                 v-for="first in categoryList"
@@ -14,7 +18,12 @@
               >
                 <!-- 一级目录 -->
                 <h3 class="list">
-                  <a href="#">{{ first.categoryName }}</a>
+                  <a
+                    :data-categoryName="first.categoryName"
+                    :data-categoryId="first.categoryId"
+                    :data-categoryType="1"
+                    >{{ first.categoryName }}</a
+                  >
                 </h3>
                 <div class="sort-second">
                   <div class="sub-item">
@@ -24,7 +33,13 @@
                     >
                       <!-- 二级目录 -->
                       <dt>
-                        <a href="#"> {{ second.categoryName }}</a>
+                        <a
+                          :data-categoryName="second.categoryName"
+                          :data-categoryId="second.categoryId"
+                          :data-categoryType="2"
+                        >
+                          {{ second.categoryName }}</a
+                        >
                       </dt>
                       <!-- 三级目录 -->
                       <dd>
@@ -32,7 +47,12 @@
                           v-for="third in second.categoryChild"
                           :key="third.categoryId"
                         >
-                          <a href="#">{{ third.categoryName }}</a>
+                          <a
+                            :data-categoryName="third.categoryName"
+                            :data-categoryId="third.categoryId"
+                            :data-categoryType="3"
+                            >{{ third.categoryName }}</a
+                          >
                         </em>
                       </dd>
                     </dl>
@@ -62,11 +82,15 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "MainNav",
-  // data() {  //页面一进来就加载数据,和数据响应式
-  //   return {
-  //     categoryList: [],
-  //   };
-  // },
+  data() {
+    //页面一进来就加载数据,和数据响应式
+    return {
+      // categoryList: [],
+      //如果是home就显示
+      isHomeShow: this.$route.path === "/",
+      isSearchShow: false,
+    };
+  },
   computed: {
     ...mapState({
       // 对象中的数据，就会传递给组件   // categoryList就是组件能接受到的数据
@@ -77,6 +101,23 @@ export default {
   methods: {
     // 函数直接写   注意：将来action函数名称和mutation函数名称不要重复
     ...mapActions(["getCategoryList"]),
+    //搜索页面
+    goSearch(e) {
+      //事件委托，只绑定一次事件给a，提高性能。  通过自定义属性获取数据
+      console.log(e.target.dataset);
+      const { categoryname, categoryid, categorytype } = e.target.dataset;
+
+      //只点中a标签才跳转
+      if (!categoryname) return;
+
+      this.$router.push({
+        name: "search", //命名路由
+        query: {
+          categoryName: categoryname,
+          [`category${categorytype}Id`]: categoryid,
+        },
+      });
+    },
   },
   mounted() {
     console.log(this);
@@ -107,7 +148,7 @@ export default {
 }
 .sort {
   position: absolute;
-  top: 47px;
+  top: 48px;
   left: 0px;
   width: 210px;
   border: 1px solid #ccc;
@@ -128,7 +169,7 @@ export default {
   height: 467px;
   display: none;
   background-color: #fff;
-  z-index: 2;
+  z-index: 3;
   dl {
     // border: 1px solid red;
     display: flex;

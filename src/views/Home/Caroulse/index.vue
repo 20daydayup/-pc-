@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="MainNav-list">
-      <div class="sort-list">
-        <!-- <swiper ref="mySwiper" :options="swiperOptions">
+    <!-- <swiper ref="mySwiper" :options="swiperOptions">
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
@@ -10,16 +8,17 @@
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper> -->
-        <div class="block">
-          <span class="demonstration">默认 Hover 指示器触发</span>
-          <el-carousel height="150px">
-            <el-carousel-item v-for="item in 4" :key="item">
-              <h3 class="small">{{ item }}</h3>
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-      </div>
-    </div>
+    <el-carousel indicator-position="outside" height="454px" width="730px">
+      <el-carousel-item>
+        <img src="./imgs/banner1.jpg" />
+      </el-carousel-item>
+      <el-carousel-item>
+        <img src="./imgs/banner1.jpg" />
+      </el-carousel-item>
+      <el-carousel-item>
+        <img src="./imgs/banner1.jpg" />
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 
@@ -49,16 +48,4 @@ export default {
 </script>
 
 <style scoped>
-.MainNav-list {
-  width: 1200px;
-  margin: 0 auto;
-  border: 1px solid red;
-}
-.sort-list {
-  height: 470px;
-  padding-left: 210px;
-}
-.center {
-  width: 740px;
-}
 </style>
