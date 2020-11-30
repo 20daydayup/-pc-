@@ -18,7 +18,7 @@ export default {
   },
   mutations: {
     GET_BASECATEGORY_LIST(state, categoryList) {
-      state.categoryList = categoryList.slice(0, 15);
+      state.categoryList = categoryList.slice(0, 16);
     },
   },
 };

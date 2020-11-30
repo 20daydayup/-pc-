@@ -98,7 +98,8 @@ export default {
 <style lang="less" scoped>
 .main{
   width: 1200px;
-  margin: 0 auto;
+  margin: 0px auto 20px;
+  height: 464px;
 }
 .center {
   box-sizing: border-box;

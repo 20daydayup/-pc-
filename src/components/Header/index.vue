@@ -53,12 +53,33 @@ export default {
     };
   },
   methods: {
+    // search() {
+    //   //获取搜索内容  后判断是否需要加parmas参数
+    //   const { searchText } = this;
+    //   const parmas = searchText ? `/${searchText}` : "";
+    //   const location = "/search" + parmas;
+    //   // 编程式导航：原因将来要做搜索功能（要发送请求）
+    //   this.$router.push(location);
+    // },
+
     search() {
-      //获取搜索内容  后判断是否需要加parmas参数
       const { searchText } = this;
-      const parmas = searchText ? `/${searchText}` : "";
-      const location = "/search" + parmas;
-      // 编程式导航：原因将来要做搜索功能（要发送请求）
+      const location = {
+        name: "search",
+        // query: {
+        // },
+      };
+      if (searchText) {
+        location.params = {
+          searchText,
+        };
+      }
+
+      // 添加query参数
+      const { categoryName } = this.$route.query;
+      if (categoryName) {
+        location.query = this.$route.query;
+      }
       this.$router.push(location);
     },
   },

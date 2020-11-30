@@ -43,15 +43,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.home-body {
-  width: 100%;
-  height: 45px;
-}
-.home-nav {
-  width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  div {
-  }
-}
 </style>

@@ -62,7 +62,7 @@
             </div>
           </div>
         </div>
-        <nav>
+        <nav class="nav">
           <a href="###">服装城</a>
           <a href="###">美妆馆</a>
           <a href="###">尚品汇超市</a>
@@ -110,13 +110,22 @@ export default {
       //只点中a标签才跳转
       if (!categoryname) return;
 
-      this.$router.push({
+      const location = {
         name: "search", //命名路由
         query: {
           categoryName: categoryname,
           [`category${categorytype}Id`]: categoryid,
         },
-      });
+      };
+
+      // 判断当前是否有params参数，有加上  Header组件中search也要保存require参数
+      const { searchText } = this.$route.params;
+      if (searchText) {
+        location.params = {
+          searchText,
+        };
+      }
+      this.$router.push(location);
     },
   },
   mounted() {
@@ -130,19 +139,20 @@ export default {
 <style lang="less" scoped>
 .MainNav-body {
   border-bottom: 2px solid #e1251b;
+  height: 45px;
 }
 .container {
   width: 1200px;
   height: 45px;
-  line-height: 45px;
   margin: 0 auto;
   display: flex;
   position: relative;
   text-align: center;
 }
 .allgoods h2 {
-  width: 210px;
   height: 45px;
+  line-height: 45px;
+  width: 210px;
   background-color: #e1251b;
   color: #fff;
 }
@@ -151,14 +161,18 @@ export default {
   top: 48px;
   left: 0px;
   width: 210px;
+  height: 474px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: #fafafa;
 }
 .sort-first .list {
-  height: 30px;
-  line-height: 30px;
+  height: 29px;
+  line-height: 29px;
   padding-left: 15px;
   text-align: left;
-  border-bottom: 1px solid #ccc;
+  // border-bottom: 1px solid #ccc;
+  overflow: hidden;
 }
 .sort-second {
   border: 1px solid #ccc;
@@ -201,11 +215,13 @@ export default {
   }
 }
 .sort-first:hover {
+  background-color: #ccc;
   .sort-second {
     display: block;
   }
 }
-nav {
+.nav {
+  // text-align: center;
   a {
     margin: 15px;
     font-size: 16px;

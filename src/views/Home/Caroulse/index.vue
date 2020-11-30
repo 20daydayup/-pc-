@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-caroulsse">
     <!-- <swiper ref="mySwiper" :options="swiperOptions">
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
@@ -8,7 +8,7 @@
           <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper> -->
-    <el-carousel indicator-position="outside" height="454px" width="730px">
+    <el-carousel indicator-position="outside" height="454px">
       <el-carousel-item>
         <img src="./imgs/banner1.jpg" />
       </el-carousel-item>
@@ -48,4 +48,13 @@ export default {
 </script>
 
 <style scoped>
+.main-caroulse {
+  width: 730px;
+  overflow: hidden;
+  height: 454px;
+}
+.el-carousel__item img {
+  width: 730px;
+  height: 454px;
+}
 </style>
