@@ -15,7 +15,7 @@ export const reqgetBaseCategoryList = () => {
 };
 
 /**
- * 获取首页轮播图数据
+ * 获取首页轮播图数据 mock
  */
 export const reqgetBanner = () => {
   return mockRequest({
@@ -25,7 +25,7 @@ export const reqgetBanner = () => {
 };
 
 /**
- * 获取首页楼层数据
+ * 获取首页楼层数据 mock
  */
 export const reqgetNiceGoods = () => {
   return mockRequest({

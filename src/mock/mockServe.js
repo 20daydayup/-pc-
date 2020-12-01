@@ -11,5 +11,5 @@ Mock.mock("/mock/banners", "get", {
 
 Mock.mock("/mock/niceGoods", "get", {
   code: 200,
-  "data|3-5": niceGoods,
+  "data|3": niceGoods,
 });

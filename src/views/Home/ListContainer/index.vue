@@ -4,7 +4,7 @@
     <div class="center">
       <!-- banner轮播 -->
       <!-- <Carousel :carouselList="banners" autoplay /> -->
-      <Caroulse :carouselList="banners" />
+      <Carousel :carouselList="banners" />
     </div>
     <div class="right">
       <div class="news">
@@ -78,14 +78,14 @@
   </div>
 </template>
 <script>
-import Caroulse from "@comps/Caroulse";
+import Carousel from "@comps/Carousel";
 import { mapState, mapActions } from "vuex";
 
 export default {
   name: "ListContainer",
   computed: {
     ...mapState({
-      banners: (state) => state.caroulse.banners,
+      banners: (state) => state.carousel.banners,
     }),
   },
   methods: {
@@ -96,7 +96,7 @@ export default {
     console.log(this);
   },
   components: {
-    Caroulse,
+    Carousel,
   },
 };
 </script>
@@ -109,6 +109,7 @@ export default {
 }
 .center {
   box-sizing: border-box;
+  margin: 0 auto;
   width: 740px;
   height: 100%;
   padding: 5px;

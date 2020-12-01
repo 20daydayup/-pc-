@@ -11,9 +11,11 @@
     <!-- 猜你喜欢 -->
     <Like />
     <!--好物-->
-    <NiceGoods />
-    <!--好物-->
-    <NiceGoods />
+    <NiceGoods
+      v-for="niceGood in niceGoods"
+      :key="niceGood.id"
+      :niceGood="niceGood"
+    />
     <!--商标-->
     <Brand />
   </div>
@@ -28,8 +30,22 @@ import NiceGoods from "./NiceGoods";
 import Rank from "./Rank";
 import TodayRecommend from "./TodayRecommend";
 
+import { mapActions, mapState } from "vuex";
+
 export default {
   name: "Home",
+  computed: {
+    ...mapState({
+      niceGoods: (state) => state.carousel.niceGoods,
+    }),
+  },
+  methods: {
+    ...mapActions(["getNiceGoods"]),
+  },
+  mounted(){
+    this.getNiceGoods()
+    console.log(this.niceGoods);
+  },
   components: {
     MainNav,
     Brand,
