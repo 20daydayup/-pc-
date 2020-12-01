@@ -1,4 +1,6 @@
 import request from "../utils/request";
+
+import mockRequest from "../utils/mockRequest";
 /**
  * 获取首页三级分类数据
  */
@@ -9,5 +11,25 @@ export const reqgetBaseCategoryList = () => {
   return request({
     method: "GET",
     url: "/product/getBaseCategoryList",
+  });
+};
+
+/**
+ * 获取首页轮播图数据
+ */
+export const reqgetBanner = () => {
+  return mockRequest({
+    method: "GET",
+    url: "/banners",
+  });
+};
+
+/**
+ * 获取首页楼层数据
+ */
+export const reqgetNiceGoods = () => {
+  return mockRequest({
+    method: "GET",
+    url: "/niceGoods",
   });
 };

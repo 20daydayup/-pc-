@@ -1,31 +1,57 @@
 <template>
   <div class="main-caroulsse">
-    <!-- <swiper ref="mySwiper" :options="swiperOptions">
-          <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
-          <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
-          <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
-          <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
-          <swiper-slide><img src="./imgs/banner1.jpg" /></swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
-        </swiper> -->
+    <!-- <div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">Slide 1</div>
+        <div class="swiper-slide">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
+    </div> -->
+    <!-- 如果需要分页器 -->
+    <!-- <div class="swiper-pagination"></div> -->
+
+    <!-- 如果需要导航按钮 -->
+    <!-- <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div> -->
+
+    <!-- 如果需要滚动条 -->
+    <!-- <div class="swiper-scrollbar"></div> -->
+    <!-- </div> -->
+    <!-- mock模拟数据 -->
     <el-carousel indicator-position="outside" height="454px">
-      <el-carousel-item>
+      <el-carousel-item v-for="banner in banners" :key="banner.id">
+        <img :src="banner.imgUrl" />
+      </el-carousel-item>
+      <!-- 初始版 -->
+      <!-- <el-carousel-item>
         <img src="./imgs/banner1.jpg" />
       </el-carousel-item>
       <el-carousel-item>
         <img src="./imgs/banner1.jpg" />
-      </el-carousel-item>
-      <el-carousel-item>
-        <img src="./imgs/banner1.jpg" />
-      </el-carousel-item>
+      </el-carousel-item> -->
     </el-carousel>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "Caroulse",
-  // data() {
+  computed: {
+    ...mapState({
+      banners: (state) => state.caroulse.banners,
+    }),
+  },
+  methods: {
+    ...mapActions(["getBanner"]),
+  },
+  mounted() {
+    this.getBanner();
+    // console.log(this);
+
+    
+
+  // data(){
   //   return {
   //     swiperOptions: {
   //       pagination: {

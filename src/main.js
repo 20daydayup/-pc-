@@ -5,9 +5,15 @@ import App from "./App";
 import store from "./store";
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 // import 'swiper/swiper-bundle.css'
-
-import "./styles/reset.css";
+//饿了么UI插件
 import "./plugins/element.js";
+
+// 引入mockServer，为了加载里面代码
+// 里面代码一旦加载，就去启动mock服务器，从而拦截相应的请求
+import "./mock/mockServe";
+
+// 引入公共资源
+import "./styles/reset.css";
 
 Vue.config.productionTip = false;
 
