@@ -11,11 +11,17 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
+            <!-- 搜索框内容 -->
             <li class="with-x" v-show="options.keyword" @click="delkeyword">
-              {{ options.keyword }}
+              {{ options.keyword }}<i>×</i>
             </li>
-            <li class="with-x" v-show="options.categoryName">
-              {{ options.categoryName }}
+            <!-- 三级列表标签 -->
+            <li
+              class="with-x"
+              v-show="options.categoryName"
+              @click="delcategoryName"
+            >
+              {{ options.categoryName }}<i>×</i>
             </li>
           </ul>
         </div>
@@ -181,12 +187,30 @@ export default {
       this.getProductList(options); //请求内容会发生变化，在data中定义数据
       this.options = options; //更新数据：将options放在this上
     },
+    //删除搜索内容标签
     delkeyword() {
-      //1.清除标签 2.重新跳转并清除parmas属性，qurey数据保留
+      //1.清除标签 2.重新跳转 清除parmas属性，qurey数据保留
       this.options.keyword = "";
-      this.$route.push({
+
+      // 清空header组件的keyword
+      this.$bus.$emit("clearkeyword");
+
+      // 2parmas只读属性，使用push方法，不能直接为空
+      this.$router.replace({
         name: "search",
         query: this.$route.query,
+      });
+    },
+    // 删除三级列表标签
+    delcategoryName() {
+      this.options.category1Id = "";
+      this.options.category2Id = "";
+      this.options.category3Id = "";
+      this.options.categoryName = "";
+
+      this.$router.replace({
+        name: "search",
+        params: this.$route.params,
       });
     },
   },
