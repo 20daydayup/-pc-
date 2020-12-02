@@ -193,7 +193,7 @@ export default {
 }
 .title {
   border: 1px solid red;
-  margin: 10px 0;
+  margin: 10px 0px 3px;
   padding: 3px;
   height: 50px;
   line-height: 25px;

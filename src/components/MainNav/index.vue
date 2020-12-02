@@ -134,8 +134,8 @@ export default {
   mounted() {
     console.log(this);
     //请求之前判断有没有vuex数据,有就显示缓存数据，减少请求数据
-    if(this.categoryList.length) return
-    
+    if (this.categoryList.length) return;
+
     // 调用vuex的action函数 发送请求
     this.getCategoryList();
   },
@@ -198,7 +198,7 @@ export default {
   height: 467px;
   display: none;
   background-color: #fff;
-  z-index: 3;
+  z-index: 10;
   dl {
     // border: 1px solid red;
     display: flex;
