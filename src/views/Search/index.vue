@@ -13,7 +13,7 @@
           <ul class="fl sui-tag">
             <!-- 搜索框内容 -->
             <li class="with-x" v-show="options.keyword" @click="delkeyword">
-              {{ options.keyword }}<i>×</i>
+              关键词 {{ options.keyword }}<i>×</i>
             </li>
             <!-- 三级列表标签 -->
             <li
@@ -21,13 +21,26 @@
               v-show="options.categoryName"
               @click="delcategoryName"
             >
-              {{ options.categoryName }}<i>×</i>
+              分类名称{{ options.categoryName }}<i>×</i>
+            </li>
+            <!-- 品牌 -->
+            <li class="with-x" v-show="options.trademark" @click="delTrademark">
+              品牌{{ options.trademark.split(":")[1] }}<i>×</i>
+            </li>
+            <!-- 品牌属性 -->
+            <li
+              class="with-x"
+              v-for="(prop, index) in options.props"
+              :key="prop"
+              @click="delProps(index)"
+            >
+              {{ prop.split(":")[2] }}:{{ prop.split(":")[1] }}<i>×</i>
             </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :addTrademark="addTrademark" @add-props="addProps" />
 
         <!--details-->
         <div class="details clearfix">
@@ -187,6 +200,7 @@ export default {
       this.getProductList(options); //请求内容会发生变化，在data中定义数据
       this.options = options; //更新数据：将options放在this上
     },
+
     //删除搜索内容标签
     delkeyword() {
       //1.清除标签 2.重新跳转 清除parmas属性，qurey数据保留
@@ -212,6 +226,27 @@ export default {
         name: "search",
         params: this.$route.params,
       });
+    },
+    //添加品牌数据并更新数据 数据如：trademark": "4:小米
+    addTrademark(trademark) {
+      this.options.trademark = trademark;
+      this.updateProductList();
+    },
+    // 删除品牌数据
+    delTrademark() {
+      this.options.trademark = "";
+      this.updateProductList();
+    },
+    //添加品牌属性数据："props": ["1:1700-2799:价格", "2:6.65-6.74英寸:屏幕尺寸"],
+    //使用自定义事件
+    addProps(prop) {
+      this.options.props.push(prop);
+      this.updateProductList();
+    },
+    //删除品牌属性数据
+    delProps(index) {
+      this.options.props.splice(index, 1);
+      this.updateProductList();
     },
   },
   mounted() {
