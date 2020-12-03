@@ -142,35 +142,20 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+
+          <!-- 分页器 -->
+          <el-pagination
+            background
+            layout="prev, pager, next,sizes,total,jumper"
+            :total="total"
+            :current-page="options.pageNo"
+            :page-size="5"
+            :page-sizes="[5, 10, 20, 30]"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+          <!-- page-size每页显示多少条数据 current-page第几页 -->
         </div>
       </div>
     </div>
@@ -208,13 +193,13 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["goodsList"]),
+    ...mapGetters(["goodsList", "total"]),
   },
   methods: {
     // 更新商品列表
     ...mapActions(["getProductList"]),
     //和watch组合使用更新数据，
-    updateProductList() {
+    updateProductList(pageNo = 1) {
       const { searchText: keyword } = this.$route.params; //解构赋值并重命名为keyword
       const {
         categoryName,
@@ -231,6 +216,7 @@ export default {
         category1Id,
         category2Id,
         category3Id,
+        pageNo, //每次更新数据都会为传进来的1
       };
       this.getProductList(options); //请求内容会发生变化，在data中定义数据
       this.options = options; //更新数据：将options放在this上
@@ -307,6 +293,18 @@ export default {
       }
       this.options.order = `${order}:${orderType}`;
       this.updateProductList();
+    },
+    //当每页条数发生变化触发
+    handleSizeChange(pageSize) {
+      // console.log("pageSize", pageSize);
+      this.options.pageSize = pageSize;
+      this.updateProductList();
+    },
+    //当页码发生变化触发
+    handleCurrentChange(pageNo) {
+      // console.log('pageNo',pageNo);
+      this.options.pageNo = pageNo;
+      this.updateProductList(pageNo);
     },
   },
   mounted() {
