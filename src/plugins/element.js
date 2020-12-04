@@ -1,7 +1,8 @@
 import Vue from "vue";
-import { Button, Carousel, CarouselItem,Pagination } from "element-ui";
+import { Button, Carousel, CarouselItem, Pagination, Input } from "element-ui";
 
 Vue.use(Button);
-Vue.use(Carousel);
-Vue.use(CarouselItem);
+Vue.use(Carousel); //轮播图
+Vue.use(CarouselItem); //轮播图
 Vue.use(Pagination);
+Vue.use(Input);

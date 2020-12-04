@@ -250,6 +250,7 @@ export default {
     },
     //添加品牌数据并更新数据 数据如：trademark": "4:小米
     addTrademark(trademark) {
+      if (this.options.trademark) return;
       this.options.trademark = trademark;
       this.updateProductList();
     },
@@ -261,6 +262,7 @@ export default {
     //添加品牌属性数据："props": ["1:1700-2799:价格", "2:6.65-6.74英寸:屏幕尺寸"],
     //使用自定义事件
     addProps(prop) {
+      if (this.options.props.indexOf(prop) > -1) return;
       this.options.props.push(prop);
       this.updateProductList();
     },
