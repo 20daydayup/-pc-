@@ -142,10 +142,18 @@
               </li>
             </ul>
           </div>
+          <!-- 手写 分页器 -->
+          <Pagination
+            :total="total"
+            :current-page="options.pageNo"
+            :page-size="5"
+            :pager-count="7"
+          />
 
-          <!-- 分页器 -->
-          <el-pagination
+          <!-- element分页器 -->
+          <!-- <el-pagination
             background
+            :pager-count="7"
             layout="prev, pager, next,sizes,total,jumper"
             :total="total"
             :current-page="options.pageNo"
@@ -154,7 +162,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
           >
-          </el-pagination>
+          </el-pagination> -->
           <!-- page-size每页显示多少条数据 current-page第几页 -->
         </div>
       </div>
@@ -166,6 +174,7 @@
 import SearchSelector from "./SearchSelector/SearchSelector";
 import MainNav from "@comps/MainNav";
 import { mapGetters, mapActions } from "vuex";
+import Pagination from "@comps/Pagination";
 
 export default {
   name: "Search",
@@ -315,6 +324,7 @@ export default {
   components: {
     SearchSelector,
     MainNav,
+    Pagination, //手写分页器
   },
 };
 </script>
