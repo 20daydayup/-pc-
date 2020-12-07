@@ -32,9 +32,8 @@
 </template>
 
 <script>
-// 1. 引入swiper两个文件
+// 1. 引入swiper两个文件 //css文件要复用放main.js中
 import Swiper, { Navigation, Pagination, Autoplay } from "swiper";
-import "swiper/swiper-bundle.min.css";
 
 Swiper.use([Navigation, Pagination, Autoplay]);
 
