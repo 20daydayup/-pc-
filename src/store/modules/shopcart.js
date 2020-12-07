@@ -7,7 +7,7 @@ import {
 
 export default {
   state: {
-    cartList: [],
+    cartList: [], // 所有购物车数据
   },
 
   getters: {},
@@ -18,10 +18,10 @@ export default {
       commit("GET_SHOP_CART", cartList);
     },
     async updateCartCount({ commit }, { skuId, skuNum }) {
-      await reqUpdateCartCount({ skuId, skuNum });
+      await reqUpdateCartCount(skuId, skuNum);
       // 1. 手动更新vuex的数据 --> 页面就会重新渲染
       // 2. 重新请求所有购物车数据
-      commit("UPDATE_CART_COUNT", cartList);
+      commit("UPDATE_CART_COUNT", { skuId, skuNum });
     },
   },
 

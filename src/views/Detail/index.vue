@@ -122,7 +122,7 @@ export default {
     ...mapGetters(["categoryView", "spuSaleAttrList", "skuInfo"]),
   },
   methods: {
-    ...mapActions(["getProducDetail"]),
+    ...mapActions(["getProducDetail", "updateCartCount"]),
     //使用轮播图组件的index 传给放大镜
     updataCurrentImgIndex(index) {
       this.currentImgIndex = index;

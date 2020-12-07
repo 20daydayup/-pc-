@@ -5,7 +5,7 @@
       <div class="goods">
         <div class="left-good">
           <div class="left-pic">
-            <img src="good.skuDefaultImg" />
+            <!-- <img src="good.skuDefaultImg" /> -->
           </div>
           <div class="right-info">
             <p class="title">
