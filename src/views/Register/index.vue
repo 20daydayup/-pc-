@@ -28,18 +28,17 @@
       </div>
       <div class="content">
         <label>登录密码:</label>
-        <ValidationProvider rules="password" v-slot="{ errors }">
-          <input
-            type="text"
-            placeholder="请输入你的登录密码"
-            v-model="password"
-          />
-          <span class="error-msg">{{ errors[0] }}</span>
-        </ValidationProvider>
+        <!-- <ValidationProvider rules="password" v-slot="{ errors }"> -->
+        <input
+          type="text"
+          placeholder="请输入你的登录密码"
+          v-model="password"
+        />
+        <span class="error-msg">{{ errors[0] }}</span>
+        <!-- </ValidationProvider> -->
       </div>
       <div class="content">
         <label>确认密码:</label>
-
         <input type="text" placeholder="请输入确认密码" v-model="repassword" />
         <!-- <span class="error-msg">{{ error }}</span> -->
       </div>
@@ -49,7 +48,7 @@
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="btn">
-        <button @click="register">完成注册</button>
+        <button @click="submit">完成注册</button>
       </div>
     </div>
 
@@ -74,6 +73,7 @@
 <script>
 import { ValidationProvider, extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
+
 extend("required", {
   ...required,
   message: "手机号必须要填写", //错误信息
@@ -92,12 +92,12 @@ extend("phone", {
   },
   message: "手机号不符合规范",
 });
-extend("password", {
-  validate(value) {
-    return /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/.test(value);
-  },
-  message: "密码至少包含 数字和英文，长度6-20",
-});
+// extend("password", {
+//   validate(value) {
+//     return /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/.test(value);
+//   },
+//   message: "密码至少包含 数字和英文，长度6-20",
+// });
 
 export default {
   name: "Register",
@@ -108,29 +108,40 @@ export default {
         code: "",
         password: "",
         repassword: "",
-        isAgree: false,
+        isAgree: false, //同意
       },
     };
   },
   methods: {
-    //
-    register() {
-      const { password, rePassword, isAgree } = this;
-      // 2. 进行正则校验
-      if (!isAgree) {
-        this.$message("请同意用户协议~");
-        return;
+    //验证所有内容，登录
+    async submit() {
+      try {
+        const { phone, password, rePassword, code, isAgree } = this.user;
+        // 2. 进行正则校验
+        if (!isAgree) {
+          this.$message("请同意用户协议~");
+          return;
+        }
+        if (password === rePassword) {
+          this.message("两次密码输入不一致！");
+          return;
+        }
+
+        // 3.发送请求注册
+        await this.$store.dispatch("registor", { phone, password, code });
+        // 4. 注册成功跳转到登录
+        this.$router.push("/login");
+      } catch {
+        // 优化： 1。清空密码 2.刷新验证码
+        this.password = "";
+        this.refresh();
       }
-      if (password === rePassword) {
-        this.message("两次密码输入不一致！");
-        return;
-      }
-      // 3.发送请求注册
     },
 
     //刷新验证码
-    refresh(e) {
-      e.target.src = "http://182.92.128.115/api/user/passport/code";
+    refresh() {
+      this.$refs.code.src = "http://182.92.128.115/api/user/passport/code";
+      // e.target.src = "http://182.92.128.115/api/user/passport/code";//需复用,使用ref
     },
   },
   components: {

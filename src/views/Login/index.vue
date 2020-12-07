@@ -10,20 +10,37 @@
             <a href="">账户登录</a>
           </li>
         </ul>
+
         <div class="login-content">
-          <form @submit.prevent="">
-            <div><i></i><input type="text" placeholder="手机号" /></div>
+          <form @submit.prevent="sumbit">
             <div>
-              <i></i>
-              <input type="password" placeholder="请输入密码" />
+              <i></i
+              ><input type="text" placeholder="手机号" v-model="user.phone" />
             </div>
+            <ValidationProvider rules="required" v-slot="{ errors }">
+              <div>
+                <i></i>
+                <input
+                  type="password"
+                  placeholder="请输入密码"
+                  v-model="user.password"
+                />
+                <p :style="{ color: 'red' }">{{ errors[0] }}</p>
+              </div>
+            </ValidationProvider>
             <div class="login-checkbox">
-              <label> <input type="checkbox" />自动登录</label>
+              <label>
+                <input
+                  type="checkbox"
+                  v-model="user.isAutoLogin"
+                />自动登录</label
+              >
               <a href="#"><span>忘记密码？</span></a>
             </div>
             <!-- <button @click="login">登录</button> -->
-            <el-button @click="login" type="danger">登录</el-button>
+            <button type="submit">登&nbsp;&nbsp;&nbsp;录</button>
           </form>
+
           <div class="login-block">
             <a>忘记用户名</a>
             <a>免费注册</a>
@@ -35,20 +52,70 @@
 </template>
 
 <script>
-import { reqLogin } from "../../api/user";
+import { mapState } from "vuex";
+import { ValidationProvider, extend } from "vee-validate";
+import { required } from "vee-validate/dist/rules";
+// import { reqLogin } from "../../api/user";
+
+extend("required", required);
 
 export default {
   name: "Login",
+  data() {
+    return {
+      user: {
+        phone: "",
+        password: "",
+      },
+      isAutoLogin: true, //自动登录
+      isLogining: false, //正在登录
+    };
+  },
+  computed: {
+    ...mapState({
+      token: (state) => state.user.token,
+      name: (state) => state.user.name,
+    }),
+  },
+  created() {
+    /*
+      自动登录：
+        在login组件判断是否有token
+        有就认为登录过，跳转到首页
+
+        不够安全：token是可以伪造的
+        解决：拿到token发送请求
+          1. 验证token的合法性（正确，没有过期）
+          2. 请求用户数据
+    */
+    // this.localStorage.getItem("token");
+    if (this.token) {
+      this.$router.replace("/");
+    }
+  },
   methods: {
-    login() {
-      reqLogin("13700000000", "111111")
-        .then((res) => {
-          console.log(res, "res");
-        })
-        .catch((err) => {
-          console.log(err, "err");
-        });
+    async submit() {
+      try {
+        if (this.isLogining) return;
+        this.isLogining = true;
+
+        const { phone, password } = this.user;
+        await this.$store.dispatch("login", { phone, password });
+        //登录成功 并且勾选自动登录，存储token，方便下次自动登录
+        //存储在localStorage中，vuex中的数据存在内存刷新就会没有
+        if (this.isAutoLogin) {
+          // localStorage.setItem("token", this.$store.state.user);
+          localStorage.setItem("token", this.token); //token在vuex中获取，存储后判断存在，在就自动登录，所以要在vuex读取token，影射到组件中，组件再读取
+          localStorage.setItem("name", this.name);
+        }
+        this.$router.replace("/");
+      } catch {
+        this.isLogining = false;
+      }
     },
+  },
+  components: {
+    ValidationProvider,
   },
 };
 </script>
