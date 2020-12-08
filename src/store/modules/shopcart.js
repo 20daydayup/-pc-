@@ -1,7 +1,7 @@
 import {
   // reqDelCart,
   reqGetCartList,
-  // reqUpdateCartCheck,
+  reqUpdateCartCheck,
   reqUpdateCartCount,
 } from "@api/shopcart";
 
@@ -21,7 +21,10 @@ export default {
       // 2. 重新请求所有购物车数据
       commit("UPDATE_CART_COUNT", { skuId, skuNum });
     },
-    async,
+    async updateCartCheck({ commit }, { skuId, isChecked }) {
+      await reqUpdateCartCheck(skuId, isChecked);
+      commit("UPDATE_CART_CHECK", { skuId, isChecked });
+    },
   },
   mutations: {
     GET_CART_LIST(state, cartList) {
@@ -34,6 +37,13 @@ export default {
           cart.skuNum += skuNum;
         }
         return cart;
+      });
+    },
+    UPDATE_CART_CHECK(state, { skuId, isChecked }) {
+      state.cartList = state.cartList.map((cart) => {
+        if (cart.skuId === skuId) {
+          cart.isChecked = isChecked;
+        }
       });
     },
   },

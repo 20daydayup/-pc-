@@ -17,6 +17,8 @@
       <ul v-for="cart in cartList" :key="cart.id">
         <li class="cart-th1">
           <input type="checkbox" v-model="cart.isChecked" />
+          <!-- :checked="isChecked === true ? 1 : 0"
+            @Click="choosed(cart.id, isChecked)" -->
         </li>
         <li class="cart-th2">
           <img :src="cart.imgUrl" class="img" />
@@ -78,7 +80,7 @@
           <i>{{ count }}</i>
         </div>
         <div class="sumbtn">
-          <a href="#">结算</a>
+          <button @click="submit">结算</button>
         </div>
       </div>
     </div>
@@ -106,9 +108,19 @@ export default {
         .filter((cart) => cart.isChecked)
         .reduce((p, c) => p + c.skuNum * c.skuPrice, 0);
     },
+    //isChecked
+    // isChecked(){
+    //   set(){
+
+    //   }
+    // }
   },
   methods: {
     ...mapActions(["getCartList", "updateCartCount"]),
+    // async choosed(id, checked) {
+    //   const ischecked = checked;
+    //   await updateCartCheck(id, ischecked);
+    // },
 
     //验证value值
     formatSkuNum(e) {
@@ -133,6 +145,11 @@ export default {
       await this.updateCartCount({ skuId, skuNum });
       // 刷新页面 在vuex中修改数据可以直接修改
       // this.getCartList();
+    },
+
+    //结算跳转
+    submit() {
+      this.$router.push("/trade");
     },
   },
   mounted() {
@@ -185,7 +202,8 @@ export default {
   border: 1px solid #ddd;
   ul {
     display: flex;
-    padding: 0 15px;
+    padding: 5px 15px;
+    border-bottom: 1px solid #ddd;
     .img {
       height: 50px;
     }

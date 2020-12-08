@@ -9,6 +9,8 @@
 import axios from "axios";
 import { Message } from "element-ui";
 import getUserTempId from "./getUserTempId";
+// store就是vuex的store，也是this.$store
+import store from "../store";
 
 // 引入进度条插件
 import NProgress from "nprogress";
@@ -49,12 +51,16 @@ instance.interceptors.request.use((config) => {
   // config 请求的配置对象
   // 将来发送请求（请求地址，请求参数，请求方式等）都会在config中找
   // 修改config，用来添加公共的请求参数
-  // if (token) {
-  //   config.headers.token = token;
-  // }
-  config.headers.userTempId = userTempId;
+
   // 开始进度条
   NProgress.start();
+
+  // 修改config，用来添加公共的请求参数
+  const token = store.state.user.token;
+  if (token) {
+    config.headers.token = token;
+  }
+  config.headers.userTempId = userTempId;
 
   return config;
   // 初始化Promise.resolve()返回默认成功的Promise，只会触发成功的回调

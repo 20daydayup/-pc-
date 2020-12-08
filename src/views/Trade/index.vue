@@ -3,30 +3,27 @@
     <h3 class="title">填写并核对订单信息</h3>
     <div class="content">
       <h5 class="receive">收件人信息</h5>
-      <div class="address clearFix">
-        <span class="username selected">张三</span>
+      <div
+        class="address clearFix"
+        v-for="address in trade.userAddressList"
+        :key="address.id"
+      >
+        <span
+          :class="{
+            username: true,
+            selected: address.id === selectedAddressId,
+          }"
+          @click="selectedAddressId = address.id"
+          >{{ address.consignee }}</span
+        >
         <p>
-          <span class="s1">北京市昌平区宏福科技园综合楼6层</span>
-          <span class="s2">15010658793</span>
-          <span class="s3">默认地址</span>
+          <span class="s1">{{ address.userAddress }}</span>
+          <span class="s2">{{ address.phoneNum }}</span>
+          <span class="s3" v-if="+address.isDefault">默认地址</span>
+          <!-- 默认地址 -->
         </p>
       </div>
-      <div class="address clearFix">
-        <span class="username selected">李四</span>
-        <p>
-          <span class="s1">北京市昌平区宏福科技园综合楼6层</span>
-          <span class="s2">13590909098</span>
-          <span class="s3">默认地址</span>
-        </p>
-      </div>
-      <div class="address clearFix">
-        <span class="username selected">王五</span>
-        <p>
-          <span class="s1">北京市昌平区宏福科技园综合楼6层</span>
-          <span class="s2">18012340987</span>
-          <span class="s3">默认地址</span>
-        </p>
-      </div>
+
       <div class="line"></div>
       <h5 class="pay">支付方式</h5>
       <div class="address clearFix">
@@ -44,38 +41,24 @@
       </div>
       <div class="detail">
         <h5>商品清单</h5>
-        <ul class="list clearFix">
+        <ul
+          class="list clearFix"
+          v-for="detail in trade.detailArrayList"
+          :key="detail.skuId"
+        >
           <li>
-            <img src="./images/goods.png" alt="" />
+            <img :src="detail.imgUrl" alt="" />
           </li>
           <li>
             <p>
-              Apple iPhone 6s (A1700) 64G 玫瑰金色
-              移动联通电信4G手机硅胶透明防摔软壳 本色系列
+              {{ detail.skuName }}
             </p>
             <h4>7天无理由退货</h4>
           </li>
           <li>
-            <h3>￥5399.00</h3>
+            <h3>￥{{ detail.orderPrice }}</h3>
           </li>
-          <li>X1</li>
-          <li>有货</li>
-        </ul>
-        <ul class="list clearFix">
-          <li>
-            <img src="./images/goods.png" alt="" />
-          </li>
-          <li>
-            <p>
-              Apple iPhone 6s (A1700) 64G 玫瑰金色
-              移动联通电信4G手机硅胶透明防摔软壳 本色系列
-            </p>
-            <h4>7天无理由退货</h4>
-          </li>
-          <li>
-            <h3>￥5399.00</h3>
-          </li>
-          <li>X1</li>
+          <li>X{{ detail.skuNum }}</li>
           <li>有货</li>
         </ul>
       </div>
@@ -84,6 +67,7 @@
         <textarea
           placeholder="建议留言前先与商家沟通确认"
           class="remarks-cont"
+          v-model="orderComment"
         ></textarea>
       </div>
       <div class="line"></div>
@@ -113,20 +97,71 @@
       <div class="price">应付金额:<span>¥5399.00</span></div>
       <div class="receiveInfo">
         寄送至:
-        <span>北京市昌平区宏福科技园综合楼6层</span>
-        收货人：<span>张三</span>
-        <span>15010658793</span>
+        <span>{{ selectAddress.userAddress }}</span>
+        收货人：<span>{{ selectAddress.consignee }}</span>
+        <span>{{ selectAddress.phoneNum }}</span>
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <button class="subBtn" @click="submit">提交订单</button>
     </div>
   </div>
 </template>
 
 <script>
+import { reqGetTrade, reqSubmitOrder } from "@api/pay";
 export default {
   name: "Trade",
+  data() {
+    return {
+      trade: {},
+      selectedAddressId: -1,
+      orderComment: "", //买家备注
+    };
+  },
+  computed: {
+    //结算底部的买家信息 选中的 address的信息
+    selectAddress() {
+      const {
+        selectedAddressId,
+        trade: { userAddressList },
+      } = this;
+      return userAddressList
+        ? userAddressList.find((address) => address.id === selectedAddressId)
+        : {}; //trade可能为空，所以userAddressList没有设置为{}
+    },
+  },
+  methods: {
+    async submit() {
+      const { tradeNo, consignee, detailArrayList } = this.trade;
+      const { phoneNum, userAddress } = this.selectAddress;
+
+      const orderId = await reqSubmitOrder({
+        tradeNo: tradeNo,
+        consignee: consignee,
+        consigneeTel: phoneNum,
+        deliveryAddress: userAddress,
+        paymentWay: "ONLINE",
+        orderComment: this.orderComment,
+        orderDetailList: detailArrayList,
+      });
+
+      //请求返回值通过查询字符串的法式传过去
+      this.$router.push({
+        path: "/pay",
+        query: {
+          orderId: orderId,
+        },
+      });
+    },
+  },
+  async mounted() {
+    const trade = await reqGetTrade();
+    this.trade = trade;
+    this.selectedAddressId = trade.userAddressList.find(
+      (address) => address.isDefault === "1"
+    ).id;
+  },
 };
 </script>
 
@@ -284,6 +319,10 @@ export default {
 
           h3 {
             color: #e12228;
+          }
+
+          img {
+            height: 100px;
           }
         }
       }
