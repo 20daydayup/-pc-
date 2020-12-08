@@ -4,7 +4,13 @@
       <div class="header-container">
         <div class="header-login-list">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <!-- vuex中name存在就显示 -->
+          <p v-if="$store.state.user.name">
+            <span>{{ $store.state.user.name }}</span>
+            &nbsp;&nbsp;&nbsp;
+            <button>退出</button>
+          </p>
+          <p v-else>
             <span>请</span>
             <router-link to="/login" class="login">登录</router-link>
             <router-link to="/register" class="rigister">免费注册</router-link>

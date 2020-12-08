@@ -1,13 +1,14 @@
-import { reqRegistor, reqLogin } from "@api/user";
+import { reqRegister, reqLogin } from "@api/user";
 
 export default {
   state: {
     name: localStorage.getItem("name") || "",
     token: localStorage.getItem("token") || "",
   },
+  getters: {},
   actions: {
-    async registor({ commit }, { phone, password, code }) {
-      await reqRegistor({ commit }, { phone, password, code });
+    async register({ commit }, { phone, password, code }) {
+      await reqRegister({ phone, password, code });
       console.log(commit);
     },
     async login({ commit }, { phone, password }) {

@@ -12,7 +12,7 @@
         </ul>
 
         <div class="login-content">
-          <form @submit.prevent="sumbit">
+          <form @submit.prevent="submit">
             <div>
               <i></i
               ><input type="text" placeholder="手机号" v-model="user.phone" />
@@ -103,6 +103,7 @@ export default {
         await this.$store.dispatch("login", { phone, password });
         //登录成功 并且勾选自动登录，存储token，方便下次自动登录
         //存储在localStorage中，vuex中的数据存在内存刷新就会没有
+
         if (this.isAutoLogin) {
           // localStorage.setItem("token", this.$store.state.user);
           localStorage.setItem("token", this.token); //token在vuex中获取，存储后判断存在，在就自动登录，所以要在vuex读取token，影射到组件中，组件再读取
@@ -199,11 +200,13 @@ form {
 button {
   width: 100%;
   height: 45px;
-  // outline: none;
-  // // background-color: #e1251b;
-  // color: #fff;
-  // border: none;
-  // padding: 6px;
+  outline: none;
+  background-color: #e1251b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 6px;
 }
 .login-block {
   margin: 40px 0;

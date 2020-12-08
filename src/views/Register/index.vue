@@ -11,13 +11,17 @@
       <div class="content">
         <label>手机号:</label>
         <ValidationProvider rules="required|length|phone" v-slot="{ errors }">
-          <input type="text" placeholder="请输入你的手机号" v-model="phone" />
+          <input
+            type="text"
+            placeholder="请输入你的手机号"
+            v-model="user.phone"
+          />
           <span class="error-msg">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
       <div class="content">
         <label>验证码:</label>
-        <input type="text" placeholder="请输入验证码" v-model="code" />
+        <input type="text" placeholder="请输入验证码" v-model="user.code" />
         <img
           @click="refresh"
           ref="code"
@@ -32,18 +36,22 @@
         <input
           type="text"
           placeholder="请输入你的登录密码"
-          v-model="password"
+          v-model="user.password"
         />
-        <span class="error-msg">{{ errors[0] }}</span>
+        <!-- <span class="error-msg">{{ errors[0] }}</span> -->
         <!-- </ValidationProvider> -->
       </div>
       <div class="content">
         <label>确认密码:</label>
-        <input type="text" placeholder="请输入确认密码" v-model="repassword" />
+        <input
+          type="text"
+          placeholder="请输入确认密码"
+          v-model="user.repassword"
+        />
         <!-- <span class="error-msg">{{ error }}</span> -->
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox" v-model="isAgree" />
+        <input name="m1" type="checkbox" v-model="user.isAgree" />
         <span>同意协议并注册《尚品汇用户协议》</span>
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
@@ -103,7 +111,7 @@ export default {
   name: "Register",
   data() {
     return {
-      users: {
+      user: {
         phone: "",
         code: "",
         password: "",
@@ -116,24 +124,25 @@ export default {
     //验证所有内容，登录
     async submit() {
       try {
-        const { phone, password, rePassword, code, isAgree } = this.user;
+        const { phone, password, repassword, code, isAgree } = this.user;
         // 2. 进行正则校验
         if (!isAgree) {
           this.$message("请同意用户协议~");
           return;
         }
-        if (password === rePassword) {
-          this.message("两次密码输入不一致！");
+        if (password !== repassword) {
+          this.$message("两次密码输入不一致！");
           return;
         }
 
         // 3.发送请求注册
-        await this.$store.dispatch("registor", { phone, password, code });
+        await this.$store.dispatch("register", { phone, password, code });
         // 4. 注册成功跳转到登录
         this.$router.push("/login");
       } catch {
         // 优化： 1。清空密码 2.刷新验证码
-        this.password = "";
+        this.user.password = "";
+        this.user.repassword = "";
         this.refresh();
       }
     },

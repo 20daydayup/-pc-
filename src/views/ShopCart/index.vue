@@ -4,38 +4,53 @@
     <!-- 结算表头 -->
     <div class="cart-type">
       <div class="cart-title">
-        <div>全部</div>
-        <div>商品</div>
-        <div>单价（元）数量</div>
-        <div>数量</div>
-        <div>小计（元）</div>
-        <div>操作</div>
+        <div class="cart-th1">全部</div>
+        <div class="cart-th2">商品</div>
+        <div class="cart-th3">单价（元）数量</div>
+        <div class="cart-th4">数量</div>
+        <div class="cart-th5">小计（元）</div>
+        <div class="cart-th6">操作</div>
       </div>
     </div>
     <!-- 商品 -->
     <div class="cart-list">
       <ul v-for="cart in cartList" :key="cart.id">
-        <li>
-          <input type="checkbox" />
+        <li class="cart-th1">
+          <input type="checkbox" v-model="cart.isChecked" />
         </li>
-        <li>
-          <img :src="cart.imgUrl" />
+        <li class="cart-th2">
+          <img :src="cart.imgUrl" class="img" />
           <div>{{ cart.skuName }}</div>
         </li>
-        <li>
+        <li class="cart-th3">
           <span class="price">{{ cart.skuPrice }}</span>
         </li>
-        <li>
-          <a href="#">
-            <a href="#" class="mini">-</a>
-            <input type="text" />
-            <a href="#" class="plus">+</a>
-          </a>
+        <li class="cart-th4">
+          <button
+            class="mini"
+            @click="updataCount(cart.skuId, -1, cart.skuNum)"
+            :disabled="cart.skuNum === 1"
+          >
+            -
+          </button>
+          <input
+            type="text"
+            :value="cart.skuNum"
+            @blur="updata(cart.skuId, cart.skuNum, $event)"
+            @input="formatSkuNum"
+          />
+          <button
+            class="plus"
+            @click="updataCount(cart.skuId, 1, cart.skuNum)"
+            :disabled="cart.skuNum === 10"
+          >
+            +
+          </button>
         </li>
-        <li>
+        <li class="cart-th5">
           <span class="sum">{{ cart.skuNum * cart.skuPrice }}</span>
         </li>
-        <li>
+        <li class="cart-th6">
           <a href="#">删除</a>
           <a href="#">移动到收藏夹</a>
         </li>
@@ -44,7 +59,9 @@
     <!-- 结算部分 -->
     <div class="cart-tool">
       <div class="all-choose">
-        <label> <input type="checkbox" /><i>全选</i></label>
+        <label>
+          <input type="checkbox" /><i>&nbsp;&nbsp;&nbsp;&nbsp;全选</i></label
+        >
       </div>
       <div class="option">
         <a href=":javescript">删除选中的商品</a>
@@ -52,10 +69,13 @@
         <a href="#">清除下柜商品</a>
       </div>
       <div class="money-box">
-        <div class="choosed">已选择<span>0</span>件商品</div>
+        <div class="choosed">
+          已选择<i>{{ total }}</i
+          >件商品
+        </div>
         <div class="count">
           <em>总价（不含运费） ：</em>
-          <i>0</i>
+          <i>{{ count }}</i>
         </div>
         <div class="sumbtn">
           <a href="#">结算</a>
@@ -75,12 +95,48 @@ export default {
     ...mapState({
       cartList: (state) => state.shopcart.cartList,
     }),
+    // 商品总数 计算选中
+    total() {
+      return this.cartList
+        .filter((cart) => cart.isChecked)
+        .reduce((p, c) => p + c.skuNum, 0);
+    },
+    count() {
+      return this.cartList
+        .filter((cart) => cart.isChecked)
+        .reduce((p, c) => p + c.skuNum * c.skuPrice, 0);
+    },
   },
   methods: {
-    ...mapActions(["getShopCart"]),
+    ...mapActions(["getCartList", "updateCartCount"]),
+
+    //验证value值
+    formatSkuNum(e) {
+      let skuNum = +e.target.value.replace(/\D+/g, "");
+      if (skuNum < 1) {
+        skuNum = 1; // 商品数量不能小于1
+      } else if (skuNum > 10) {
+        skuNum = 10;
+      }
+      e.target.value = skuNum;
+    },
+
+    updata(skuId, skuNum, e) {
+      //优化：没有修改就不发请求
+      if (e.target.value === skuNum) return;
+
+      this.updateCartCount({ skuId, skuNum: e.target.value - skuNum });
+    },
+
+    async updataCount(skuId, skuNum) {
+      // 更新商品
+      await this.updateCartCount({ skuId, skuNum });
+      // 刷新页面 在vuex中修改数据可以直接修改
+      // this.getCartList();
+    },
   },
   mounted() {
-    this.getShopCart();
+    this.getCartList();
   },
 };
 </script>
@@ -91,13 +147,49 @@ export default {
   margin: 10px auto;
 }
 .cart-type {
-  height: 52px;
+  height: 36px;
 }
 .cart-title {
   display: flex;
   border: 1px solid #ddd;
   padding: 10px;
   background: #f5f5f5;
+}
+.cart-th1 {
+  width: 30%;
+
+  span {
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+.cart-th2 {
+  width: 40%;
+}
+
+.cart-th3,
+.cart-th4,
+.cart-th5,
+.cart-th6 {
+  input {
+    vertical-align: middle;
+    width: 20px;
+    margin: 0 10px;
+  }
+  width: 18.5%;
+}
+
+//商品列表
+.cart-list {
+  border: 1px solid #ddd;
+  ul {
+    display: flex;
+    padding: 0 15px;
+    .img {
+      height: 50px;
+    }
+  }
 }
 .cart-tool {
   border: 1px solid #ddd;
@@ -114,7 +206,16 @@ export default {
   }
 }
 .money-box {
-  margin: 0 0 0 570px;
+  margin: 0 0 0 430px;
   display: flex;
+  justify-content: space-around;
+  div {
+    margin: 0 10px;
+  }
+  i {
+    color: red;
+    margin: 0 5px;
+    font-size: 18px;
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 import request from "../utils/request";
 
 // 获取购物车列表
-export const reqGetShopCart = () => {
+export const reqGetCartList = () => {
   return request({
     method: "GET",
     url: "/cart/cartList",
@@ -15,14 +15,14 @@ export const reqUpdateCartCount = (skuId, skuNum) => {
   });
 };
 // 切换商品选中状态
-export const reqChoosedProduct = (skuID, isChecked) => {
+export const reqUpdateCartCheck = (skuId, isChecked) => {
   return request({
     method: "GET",
-    url: `/cart/checkCart/${skuID}/${isChecked}`,
+    url: `/cart/checkCart/${skuId}/${isChecked}`,
   });
 };
 // 删除购物车商品
-export const reqDelShopCart = (skuId) => {
+export const reqDelCart = (skuId) => {
   return request({
     method: "DELETE",
     url: `/cart/deleteCart/${skuId}`,
