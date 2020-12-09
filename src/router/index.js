@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-import Home from "../views/Home";
+/* import Home from "../views/Home";
 import Login from "../views/Login";
 import Register from "../views/Register";
 import Search from "../views/Search";
@@ -13,8 +13,24 @@ import AddCartSuccess from "../views/AddCartSuccess";
 import Center from "../views/Center";
 import Pay from "../views/Pay";
 import PaySuccess from "../views/PaySuccess";
-import Trade from "../views/Trade";
+import Trade from "../views/Trade"; */
+
 import store from "@store/";
+
+const Home = () => import(/* webpackChunkName: "Home" */ "../views/Home");
+const Login = () => import(/* webpackChunkName: "Login" */ "../views/Login");
+const Register = () =>import(/* webpackChunkName: "Register" */ "../views/Register");
+const Search = () => import(/* webpackChunkName: "Search" */ "../views/Search");
+const Detail = () => import(/* webpackChunkName: "Detail" */ "../views/Detail");
+const AddCartSuccess = () =>
+  import(/* webpackChunkName: "AddCartSuccess" */ "../views/AddCartSuccess");
+const ShopCart = () =>
+  import(/* webpackChunkName: "ShopCart" */ "../views/ShopCart");
+const Trade = () => import(/* webpackChunkName: "Trade" */ "../views/Trade");
+const Pay = () => import(/* webpackChunkName: "Pay" */ "../views/Pay");
+const PaySuccess = () =>
+  import(/* webpackChunkName: "PaySuccess" */ "../views/PaySuccess");
+const Center = () => import(/* webpackChunkName: "Center" */ "../views/Center");
 
 // 重写push和replace方法
 // 目的：为了让编程式导航重复点击时不报错~
