@@ -20,7 +20,7 @@
                   {{ keywords }}
                 </li>
               </ul>
-              <img :src="niceGood.imgUrl" />
+              <img v-lazy="niceGood.imgUrl" />
             </div>
             <div class="floorBanner">
               <Carousel :carouselList="niceGood.carouselList" />
@@ -28,22 +28,22 @@
             <div class="split">
               <span class="floor-x-line"></span>
               <div class="floor-conver-pit">
-                <img :src="niceGood.recommendList[0]" />
+                <img v-lazy="niceGood.recommendList[0]" />
               </div>
               <div class="floor-conver-pit">
-                <img :src="niceGood.recommendList[1]" />
+                <img v-lazy="niceGood.recommendList[1]" />
               </div>
             </div>
             <div class="split center">
-              <img :src="niceGood.bigImg" />
+              <img v-lazy="niceGood.bigImg" />
             </div>
             <div class="split">
               <span class="floor-x-line"></span>
               <div class="floor-conver-pit">
-                <img :src="niceGood.recommendList[2]" />
+                <img v-lazy="niceGood.recommendList[2]" />
               </div>
               <div class="floor-conver-pit">
-                <img :src="niceGood.recommendList[3]" />
+                <img v-lazy="niceGood.recommendList[3]" />
               </div>
             </div>
           </div>

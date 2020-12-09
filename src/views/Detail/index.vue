@@ -138,7 +138,10 @@ export default {
         await this.updateCartCount({
           skuId: this.skuInfo.id,
           skuNum: this.skuNum,
+          // skuImg:this.skuInfo.skuDefaultImg
         });
+        //数据传到下个页面去，用session(关闭浏览器后不需要再回到这个页面)或，使用vuex通过请求参数传过去 1.方法一
+        sessionStorage.setItem("cart",JSON.stringify(this.skuInfo))
         // 一旦加入购物车，跳转到加入购物车成功页面
         this.$router.push(`/addcartsuccess?skuNum=${this.skuNum}`);
       } catch (e) {

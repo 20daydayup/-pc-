@@ -6,7 +6,7 @@
         v-for="carousel in carouselList"
         :key="carousel.id"
       >
-        <img :src="carousel.imgUrl" />
+        <img v-lazy="carousel.imgUrl" />
       </div>
     </div>
     <!-- 如果需要分页器 -->
@@ -19,7 +19,7 @@
   <!-- mock模拟数据 -->
   <!--  <el-carousel indicator-position="outside" height="454px">
       <el-carousel-item v-for="banner in banners" :key="banner.id">
-        <img :src="banner.imgUrl" />
+        <img v-lazy="banner.imgUrl" />
       </el-carousel-item> -->
   <!-- 初始版 -->
   <!-- <el-carousel-item>
